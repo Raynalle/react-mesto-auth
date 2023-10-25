@@ -112,15 +112,18 @@ function App() {
   }, [isLoggedIn, navigate]);
 
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getCards()])
+    if(isLoggedIn) {
+      Promise.all([api.getUserInfo(), api.getCards()])
       .then(([user, initCards]) => {
         setCurrentUser(user);
         setCards(initCards);
       })
+
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+    }
+  }, [isLoggedIn]);
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupState(true);
